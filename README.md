@@ -5,11 +5,7 @@
 ---
 This project has only one motive; that is to experiment with working of an inverter and understanding all the parameters involved with it. The design will utilise the models that are present under the __skywater 130nm pdk__ and various open source tools such as, __Xschem__, __NGSPICE__, __MAGIC__, __Netgen__, etc.
 
-The whole process starts with analysis of _NMOS_ and _PMOS_ devices, specifically the 1.8v standard models available inside the pdk to determine a common working W/L ratio and also the gm, ron and similar values. After this we start with the design of a CMOS inverter that includes schematic, measurement of various parameters like delays, noise margin, risetime, falltime, etc. This part would also act as a case study on __SPICE__ where we use it's programming capabilities to better our abilities in measurements of aforementioned parameters. Then we will engage in the design a layout for our inverter in __magic layout editor__. Here, we will also explore the different layers available to the user and how we utilise them in a design and what it translates to in terms of a mask. Lastly, we compare the two netlists, that is the schematic and the layout one, which is popularly referred to as ___LVS___. If everything is hunky-dory, this project would then conclude. 
-
-I will try to keep updating it as often as possible, as this first project is a primary resource for me to practice analog design, with the open source toolchain and definitely to keep a documentation that is easily understandable by anyone who later tries to practice it the same way.
-
-Let's get right into it. 
+The whole process starts with analysis of _NMOS_ and _PMOS_ devices, specifically the 1.8v standard models available inside the pdk to determine a common working W/L ratio and also the gm, ron and similar values. After this we start with the design of a CMOS inverter that includes schematic, measurement of various parameters like delays, noise margin, risetime, falltime, etc. This part would also act as a case study on __SPICE__ where I use it's programming capabilities to better our abilities in measurements of aforementioned parameters. Then I engage in the design a layout for our inverter in __magic layout editor__. Here, I explore the different layers available to the user and how we utilise them in a design and what it translates to in terms of a mask. Lastly, I compare the two netlists, that is the schematic and the layout one, which is popularly referred to as ___LVS___.  
 
 ![Inverter Design and Analysis](./images/inverter_intro_picture.png)
 
@@ -34,7 +30,6 @@ I used the above to plot the basic characteristic plots for an NMOS Transistor, 
 ```setplot``` - This would list all the set of plots available for this simulation.<br>
 _after this choose a plot by typing '''setplot <plot_name>'''. for example '''setplot tran1'''_<br>
 ```plot``` - to choose the vector to plot.<br>
-_example : plot -vds#branch_<br><br>
 
  DC sweep on the __VGS__ source for different values of __VDS__:<br>
 ![Ids vs Vgs](./images/nfet_Ids_vs_Vgs.png)<br><br>
@@ -97,7 +92,7 @@ CMOS Circuits generally consists of a network split into two parts, Upper one re
 
 ### 2.2 CMOS Inverter Analysis Pre-Layout
 
-Before, I start with the CMOS inverter,  I believe it is worth mentioning what an Inverter is. Inverter is something that inverts. In electronics it is very popularly explained as something that performs the __NOT__ logic, that is complements the input. So a __HIGH(1.8V)__ becomes __LOW(0V)__ and vice versa. Ideally, the output follows the input and there is no delay or propogation issues of the circuit. But in reality, an inverter can be a real piece of work. It can have serveral isseus like how fast can it react to the changes in the input, how much load can it tolerate before it's output breaks and so many more including noise, bandwidth, etc.
+Inverter is something that inverts. In electronics it is very popularly explained as something that performs the __NOT__ logic, that is complements the input. So a __HIGH(1.8V)__ becomes __LOW(0V)__ and vice versa. Ideally, the output follows the input and there is no delay or propogation issues of the circuit. But in reality, an inverter can be a real piece of work. It can have serveral isseus like how fast can it react to the changes in the input, how much load can it tolerate before it's output breaks and so many more including noise, bandwidth, etc.
 
 All these parameters are what will always plague any analog design or design with transistor in general. Hence, with inverter many like to explore them all. So it justifies why Inverter is referred to as ___Hello World! of transistor level design___. Atleast, I say that :rofl:. So in this section that took me aeons to reach to, we finally start with all the important analysis and parameters to be evaluated for an Inverter. I first start with a schematic diagram, then I evaluate all the parameters, that is, measuring them, experimentin with them and reaching a conclusive value and Finally reach a schematic circuit that is capable of things we lay down at the beginning.
 
@@ -183,6 +178,7 @@ plot dc1.vout vs vin dc2.vout vs vin dc3.vout vs vin dc4.vout vs vin dc5.vout vs
 
 The above ```control``` block would _sweep_ vdd from __1.8V__ and __0.3V__ in steps of __0.3V__, in __ngspice__ and do dc analysis for all of them. The below is the plot for the this [netlist](./xschem%20files/simulations/inv_dc_supply_variations.spice) <br><br>
 ![cmos_inv_vdd_variations](./images/cmos_inv_vdd_variations.png)
+
 
 
 
