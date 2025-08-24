@@ -15,105 +15,11 @@ Let's get right into it.
 
 ---
 
-## Contents
-- [1. Tool and PDK Setup](#1-Tools-and-PDK-setup)
-  - [1.1 Tools Setup](#11-Tools-setup)
-  - [1.2 PDK Setup](#12-PDK-setup)
-- [2. Analysis of MOSFET models](#2-Analysis-of-MOSFET-models)
-  - [2.1 General MOS analysis](#21-General-MOS-analysis)
-  - [2.2 Strong 0 and Weak 1](#22-Strong-0-and-Weak-1)
-  - [2.3 Weak 0 and Strong 1](#23-Weak-0-and-Strong-1)
-- [3. CMOS Inverter Design and Analysis](#3-CMOS-Inverter-Design-and-Analysis)
-  - [3.1 Why CMOS Circuits](#31-Why-CMOS-Circuits) 
-  - [3.2 CMOS Inverter Analysis(Pre-Layout)](#32-CMOS-Inverter-Analysis-Pre-Layout)
-    - [3.2.1 DC Analysis and Important design parameters](#321-DC-Analysis-and-Important-design-parameters)
-    - [3.2.2 DC Parametric Analysis](#322-DC-Parametric-Analysis)
+## 1. Analysis of MOSFET models
 
-###### Section 1 has been referenced from [VSDOPEN21_BGR Readme file](https://github.com/D-curs-D/vsdopen2021_bgr/edit/main/README.md) Thanks [Kunal](https://github.com/kunalg123)!
+### 1.1 General MOS Analysis
 
-## 1. Tools and PDK setup
-
-### 1.1 Tools setup
-For the design and simulation of our Inverter.
-- Spice netlist simulation - [Ngspice](http://ngspice.sourceforge.net/)
-- Layout Design and DRC - [Magic](http://opencircuitdesign.com/magic/)
-- LVS - [Netgen](http://opencircuitdesign.com/netgen/)
-- Schematic Capture - [Xschem](http://repo.hu/projects/xschem/)
-
-#### Make sure all the libraries that are necessary for all these below software are installed in your system. Also this would cost a lot of space as well so I suggest to get atleast 50GB of storage and atleast 8GB RAM.
-
-I have created a bash script to do that, use [this](./scripts/libs_Installer) file to install all the dependant libraries for the below software.
-I am in the process to create one script to install all the below, but that is for some other day. 
-
-#### 1.1.1 Ngspice 
-![image](https://user-images.githubusercontent.com/49194847/138070431-d95ce371-db3b-43a1-8dbe-fa85bff53625.png)
-
-[Ngspice](http://ngspice.sourceforge.net/devel.html) is the open source spice simulator for electric and electronic circuits. Ngspice is an open project, there is no closed group of developers.
-
-[Ngspice Reference Manual](http://ngspice.sourceforge.net/docs/ngspice-manual.pdf): Complete reference manual.
-
-**Steps to install Ngspice** - <br>
-___Don't use the version that comes with linux distribution, since it is dated and sometimes misses crucial updates___
-
-Follow [this](https://youtu.be/jXmmxO8WG8s?t=1032) video for __just the ngspice installation.__ DO NOT use this video to install xschem and skywater-pdk.<br>
-
-_The above video should be fine but if it does not work for you, Follow the instructions given inside the INSTALL and README file that comes inside the git clone of the repository of ngspice_
-
-#### 1.1.2 Magic
-![image](https://user-images.githubusercontent.com/49194847/138071384-a2c83ba4-3f9c-431a-98da-72dc2bba38e7.png)
-
- [Magic](http://opencircuitdesign.com/magic/) is a VLSI layout tool.
- 
-**Steps to install Magic** - 
- Follow the instructions on the [Opencircuitdesign](https://opencircuitdesign.com/magic/) Install section. I would suggest to use a couple options for the configuration file.
- 
-#### 1.1.3 Netgen
-![image](https://user-images.githubusercontent.com/49194847/138073573-a819cc67-7643-4ecf-983d-454d99ec5443.png)
-
-[Netgen](http://opencircuitdesign.com/netgen/) is a tool for comparing netlists, a process known as LVS, which stands for "Layout vs. Schematic". This is an important step in the integrated circuit design flow, ensuring that the geometry that has been laid out matches the expected circuit.
-
-**Steps to install Netgen** - Open the terminal and type the following to insatll Netgen.
-```
-$  git clone git://opencircuitdesign.com/netgen
-$  cd netgen
-$  ./configure
-$  sudo make
-$  sudo make install 
-```
-#### 1.1.4 Xschem
-![image](https://user-images.githubusercontent.com/43693407/143311382-8cd3c1c9-dd07-4179-892d-52e9cf71e5a7.png)
-
-[Xschem](http://repo.hu/projects/xschem/xschem_man/xschem_man.html) is a schematic capture program that allows to interactively enter an electronic circuit using a graphical and easy to use interface. When the schematic has been created a circuit netlist can be generated for simulation.
-
-**Steps to install Xschem**
-Follow the instructions given [here](http://repo.hu/projects/xschem/xschem_man/install_xschem.html).
-
-### 1.2 PDK setup
-
-A process design kit (PDK) is a set of files used within the semiconductor industry to model a fabrication process for the design tools used to design an integrated circuit. The PDK is created by the foundry defining a certain technology variation for their processes. It is then passed to their customers to use in the design process.
-
-The PDK we are going to use for this BGR is Google Skywater-130 (130 nm) PDK.
-![image](https://user-images.githubusercontent.com/49194847/138075630-d1bdacac-d37b-45d3-88b5-80f118af37cd.png)
-
-**Steps to download PDK** - Open the terminal and type the following to download sky130 PDK.
-```
-$  git clone https://github.com/RTimothyEdwards/open_pdks.git
-$  cd open_pdks
-$  ./configure [options]
-$  make
-$  [sudo] make install
-```
-
-**You should follow the instructions given at [this](http://opencircuitdesign.com/open_pdks/index.html) link**
----
-
-## 2. Analysis of MOSFET models
-
-### 2.1 General MOS Analysis
-
-In this section I start with our analysis of MOSFET models present in sky130 pdk. I would be using the 1.8v transistor models, but you can definitely use and experiment with other ones present there. below is the schematic I created in **Xschem**.
-
-___highly recommended to check out the tutorials of xschem [here](http://repo.hu/projects/xschem/xschem_man/xschem_man.html) and ngspice [here](http://ngspice.sourceforge.net/docs/ngspice-manual.pdf)___
+In this section I start with our analysis of MOSFET models present in sky130 pdk. I used 1.8v transistor models, but you can definitely use and experiment with other ones present there. below is the schematic I created in **Xschem**.
 
 ![NMOS CHAR SCHEMATIC](./Images/nfet_for_vgs_vs_ids.png)
 
@@ -277,4 +183,5 @@ plot dc1.vout vs vin dc2.vout vs vin dc3.vout vs vin dc4.vout vs vin dc5.vout vs
 
 The above ```control``` block would _sweep_ vdd from __1.8V__ and __0.3V__ in steps of __0.3V__, in __ngspice__ and do dc analysis for all of them. The below is the plot for the this [netlist](./xschem%20files/simulations/inv_dc_supply_variations.spice) <br><br>
 ![cmos_inv_vdd_variations](./Images/cmos_inv_vdd_variations.png)
+
 
