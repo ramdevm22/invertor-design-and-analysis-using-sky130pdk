@@ -2,8 +2,6 @@
 ### Design and Analysis of CMOS Inverter using the sky130 pdk and various open source tools
 ---
 
-___I got busy and development has halted for a while. I plan to continue and complete this repo and would also welcome any contribution from others as well. Stay tuned for the bash script to install the tools for analog design flow(xschem+sky130pdk+ngspice+magic+netgen), that is in priority for now. Also special thanks to [Rajdeep](https://www.linkedin.com/in/rajdeep-mazumder/) for mentioning this repository in his videos, now I have a responsibility to manage it better which I am really excited for!!.___
-
 ---
 This project has only one motive; that is to experiment with working of an inverter and understanding all the parameters involved with it. The design will utilise the models that are present under the __skywater 130nm pdk__ and various open source tools such as, __Xschem__, __NGSPICE__, __MAGIC__, __Netgen__, etc.
 
@@ -13,7 +11,7 @@ I will try to keep updating it as often as possible, as this first project is a 
 
 Let's get right into it. 
 
-![Inverter Design and Analysis](./Images/inverter_intro_picture.png)
+![Inverter Design and Analysis](./images/inverter_intro_picture.png)
 
 ---
 
@@ -279,3 +277,4 @@ plot dc1.vout vs vin dc2.vout vs vin dc3.vout vs vin dc4.vout vs vin dc5.vout vs
 
 The above ```control``` block would _sweep_ vdd from __1.8V__ and __0.3V__ in steps of __0.3V__, in __ngspice__ and do dc analysis for all of them. The below is the plot for the this [netlist](./xschem%20files/simulations/inv_dc_supply_variations.spice) <br><br>
 ![cmos_inv_vdd_variations](./Images/cmos_inv_vdd_variations.png)
+
